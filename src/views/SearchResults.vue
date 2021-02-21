@@ -2,21 +2,38 @@
   <div v-if="loadingSearchResults">
     <Loader />
   </div>
-  <div v-else class="home">
+  <div v-else>
     <div class="header">
       <h1>Search Results</h1>
     </div>
 
     <div>
       <form @submit.prevent="createNewSearch()">
-        <input type="text" v-model="searchInputValue" />
+        <input
+          class="search-input"
+          type="text"
+          v-model="searchInputValue"
+          placeholder="Search Again"
+        />
       </form>
     </div>
 
     <div class="total-count">{{ totalItems }} Results</div>
 
-    <div class="search-result-container">
-      <div v-for="item in searchResults" :key="item.id">
+    <div
+      class="search-result-container"
+      style="
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+      "
+    >
+      <div
+        v-for="item in searchResults"
+        :key="item.id"
+        class="search-result-item"
+      >
         <Card :item="item" />
       </div>
     </div>
@@ -71,10 +88,4 @@ export default {
 </script>
 
 <style>
-.search-results-container {
-  display: flex !important;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-}
 </style>

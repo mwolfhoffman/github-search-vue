@@ -7,6 +7,7 @@
     <div class="home-body">
       <form @submit.prevent="initiateSearch()">
         <input
+        class="search-input"
           v-model="searchTerm"
           placeholder="Type a User!"
         />
@@ -31,20 +32,5 @@ export default {
 </script>
 
 <style>
-input {
-  width: 50%;
-  background-color: lightblue;
-  color: grey;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
 
-div {
-  border-radius: 5px;
-  background-color: #f2f2f2;
-  padding: 20px;
-}
 </style>
