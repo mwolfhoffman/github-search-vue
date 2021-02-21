@@ -50,8 +50,8 @@ export default new Vuex.Store({
             item.stars = await starsRes.json();
           }
         })
-        commit('setTotalItems', response.total_count);
-        commit('setSearchResults', json);
+        commit('setTotalItems', json.total_count);
+        commit('setSearchResults', json.items);
         commit('setLoadingSearchResults', false);
       } catch (error) {
         //  TODO: Create some error handling.
