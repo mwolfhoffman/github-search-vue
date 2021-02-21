@@ -27,11 +27,15 @@
         justify-content: space-between;
       "
     >
-      <div class="search-page-btn">&#8592; Previous</div>
+      <div @click.prevent="decrementPage()" class="search-page-btn">
+        &#8592; Previous
+      </div>
       <div class="total-count">
         Showing <b>10</b> Results of <b>{{ totalItems }}</b>
       </div>
-      <div class="search-page-btn">Next &#8594;</div>
+      <div @click.prevent="incrementPage()" class="search-page-btn">
+        Next &#8594;
+      </div>
     </div>
 
     <div
@@ -88,6 +92,21 @@ export default {
     search() {
       this.currentSearchTerm = this.$route.params.searchTerm;
       this.searchUsers({ searchTerm: this.currentSearchTerm });
+    },
+    incrementPage() {
+      if (this.page === this.totalItems / 10) {
+        //   Hard-coded 10 because for now I am only allowing 10 items per page.
+        return;
+      }
+      this.$store.commit("setPage", this.page + 1);
+      this.search();
+    },
+    decrementPage() {
+      if (this.page === 1) {
+        return;
+      }
+      this.$store.commit("setPage", this.page - 1);
+      this.search();
     },
   },
   mounted() {
