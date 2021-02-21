@@ -18,7 +18,21 @@
       </form>
     </div>
 
-    <div class="total-count">{{ totalItems }} Results</div>
+    <div
+      class="search-control-container"
+      style="
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      "
+    >
+      <div class="search-page-btn">&#8592; Previous</div>
+      <div class="total-count">
+        Showing <b>10</b> Results of <b>{{ totalItems }}</b>
+      </div>
+      <div class="search-page-btn">Next &#8594;</div>
+    </div>
 
     <div
       class="search-result-container"
