@@ -59,7 +59,7 @@ export default createStore({
         const response = await fetch(`${constants.githubBaseUrl}/users?q=${payload.searchTerm}&page=${state.page}&per_page=${state.resultsPerPage}`, httpOptions)
         const json = await response.json();
 
-        await asyncForEach(json.items, async (item) => {
+        await asyncForEach(json.items, async (item: any) => {
           let followersRes = await fetch(item.followers_url, httpOptions);
           item.followers = await followersRes.json();
 
