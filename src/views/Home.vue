@@ -19,12 +19,12 @@
         />
         <button type="submit">Save</button>
       </form>
-      <span class="error-text" v-if="tokenErrorMessage">{{
+      <div class="error-message-box" v-if="tokenErrorMessage">{{
         tokenErrorMessage
-      }}</span>
+      }}</div>
     </div>
 
-    <div class="access-token-successful" v-else>
+    <div class="token-success-box" v-else>
       <p>Nice Work! You Access Token Was Successfully Added. Start Searching!</p>
     </div>
 

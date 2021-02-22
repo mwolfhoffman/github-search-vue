@@ -62,7 +62,16 @@ a {
     cursor: pointer;
 }
 
-.error-text {
-    color: red;
-    background-color: lightcoral;
+.error-message-box {
+    padding: 20px;
+    background-color: #f44336; /* Red */
+    color: white;
+    margin-bottom: 15px;
+}
+
+.token-success-box {
+    padding: 20px;
+    background-color: #4caf50; /* Red */
+    color: white;
+    margin-bottom: 15px;
 }

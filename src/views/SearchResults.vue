@@ -31,7 +31,7 @@
         &#8592; Previous
       </div>
       <div class="total-count">
-        Showing <b>10</b> Results of <b>{{ totalItems }}</b>
+        Showing <b>{{totalItems >= 10 ? '10' : totalItems}}</b> Results of <b>{{ totalItems }}</b>
       </div>
       <div @click.prevent="incrementPage()" class="search-page-btn">
         Next &#8594;
