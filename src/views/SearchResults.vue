@@ -70,10 +70,10 @@
 </template>
 
 
-<script>
+<script lang="ts">
 import { mapState, mapActions } from "vuex";
-import Loader from "../components/loader";
-import Card from "../components/card";
+import Loader from "../components/loader.vue";
+import Card from "../components/card.vue";
 
 export default {
   components: {
@@ -91,44 +91,45 @@ export default {
   },
   data() {
     return {
-      currentSearchTerm: "",
-      searchInputValue: "",
+      currentSearchTerm: "" as string,
+      searchInputValue: "" as string,
     };
   },
   methods: {
     ...mapActions(["searchUsers"]),
-    createNewSearch() {
+    createNewSearch(): void {
       this.$router.push(this.searchInputValue);
       this.searchInputValue = "";
     },
-    search() {
+    search(): void {
       this.currentSearchTerm = this.$route.params.searchTerm;
       this.searchUsers({ searchTerm: this.currentSearchTerm });
     },
-    incrementPage() {
+    incrementPage(): void {
       if (this.page >= this.totalItems / this.resultsPerPage) {
         return;
       }
       this.$store.commit("setPage", this.page + 1);
       this.search();
     },
-    decrementPage() {
+    decrementPage(): void {
       if (this.page === 1) {
         return;
       }
       this.$store.commit("setPage", this.page - 1);
       this.search();
     },
-    onResultsPerPageChange(event) {
+    onResultsPerPageChange(event): void {
       this.$store.commit("setResultsPerPage", event.target.value);
       this.search();
     },
   },
-  mounted() {
+  mounted(): void {
     this.search();
   },
   watch: {
     $route() {
+      //  If route changes, it must be a new search. Set page to 1 and begin the new search.
       this.$store.commit("setPage", 1);
       this.search();
     },

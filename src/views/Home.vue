@@ -42,14 +42,14 @@
   </div>
 </template>
 
-<script>
-import TokenInfo from "../components/token-info";
+<script lang="ts">
+import TokenInfo from "../components/token-info.vue";
 export default {
   components: {
     TokenInfo,
   },
   methods: {
-    async setAccessToken() {
+    async setAccessToken():Promise<void> {
       try {
         this.tokenErrorMessage = "";
         await this.$store.dispatch("addAccessToken", this.accessToken);
@@ -60,7 +60,7 @@ export default {
         this.accessToken = "";
       }
     },
-    async initiateSearch() {
+    async initiateSearch():Promise<void> {
       if (!this.searchTerm) {
         return;
       }
@@ -74,12 +74,12 @@ export default {
   },
   data() {
     return {
-      tokenSuccessful: false,
-      tokenErrorMessage: "",
-      loading: false,
-      accessToken: "",
-      showTokenInfo: false,
-      searchTerm: "",
+      tokenSuccessful: false as boolean,
+      tokenErrorMessage: "" as string,
+      loading: false as boolean,
+      accessToken: "" as string,
+      showTokenInfo: false as boolean,
+      searchTerm: "" as string,
     };
   },
 };

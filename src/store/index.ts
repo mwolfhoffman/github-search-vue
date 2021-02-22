@@ -74,7 +74,7 @@ export default createStore({
         commit('setSearchResults', json.items);
         commit('setLoadingSearchResults', false);
       } catch (error) {
-        //  TODO: Create some error handling.
+        //  TODO: Create better error handling. (Modal, Toast, Alert, some indicator that something went wrong for the user.)
         console.error(error);
         commit('setLoadingSearchResults', false);
       }
