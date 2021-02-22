@@ -99,6 +99,7 @@ export default {
     ...mapActions(["searchUsers"]),
     createNewSearch() {
       this.$router.push(this.searchInputValue);
+      this.searchInputValue = "";
     },
     search() {
       this.currentSearchTerm = this.$route.params.searchTerm;
