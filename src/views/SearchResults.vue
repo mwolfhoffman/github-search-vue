@@ -74,8 +74,9 @@
 import { mapState, mapActions } from "vuex";
 import Loader from "../components/loader.vue";
 import Card from "../components/card.vue";
+import { defineComponent } from "vue";
 
-export default {
+export default defineComponent({
   components: {
     Loader,
     Card,
@@ -91,7 +92,7 @@ export default {
   },
   data() {
     return {
-      currentSearchTerm: "" as string,
+      currentSearchTerm: "" as string | string[],
       searchInputValue: "" as string,
     };
   },
@@ -119,7 +120,7 @@ export default {
       this.$store.commit("setPage", this.page - 1);
       this.search();
     },
-    onResultsPerPageChange(event): void {
+    onResultsPerPageChange(event : any): void {
       this.$store.commit("setResultsPerPage", event.target.value);
       this.search();
     },
@@ -134,7 +135,7 @@ export default {
       this.search();
     },
   },
-};
+});
 </script>
 
 <style>

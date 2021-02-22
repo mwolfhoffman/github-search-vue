@@ -1,6 +1,8 @@
 import * as constants from '../config/constants';
 import { createStore } from 'vuex'
 import asyncForEach from '../assets/js/async-for-each';
+import SearchResult from '@/classes/search-result.class';
+import SearchResultItem from '@/classes/search-result-item.class';
 
 export default createStore({
   state: {
@@ -57,19 +59,14 @@ export default createStore({
           }
         }
         const response = await fetch(`${constants.githubBaseUrl}/users?q=${payload.searchTerm}&page=${state.page}&per_page=${state.resultsPerPage}`, httpOptions)
-        const json = await response.json();
+        const json: SearchResult = await response.json();
 
-        await asyncForEach(json.items, async (item: any) => {
+        await asyncForEach(json.items, async (item: SearchResultItem) => {
           let followersRes = await fetch(item.followers_url, httpOptions);
           item.followers = await followersRes.json();
-
-          if (item.followers && !item.followers.message) {
-            //  Github is returning a "message" property if the API rate limit is exceeded. 
-            // If item.followers_url returns a message property, there is no use in requesting the stars query since it won't succeed.
-            let starsRes = await fetch(`${item.url}/starred`, httpOptions);
-            item.stars = await starsRes.json();
-          }
-        })
+          let starsRes = await fetch(`${item.url}/starred`, httpOptions);
+          item.stars = await starsRes.json();
+        });
         commit('setTotalItems', json.total_count);
         commit('setSearchResults', json.items);
         commit('setLoadingSearchResults', false);

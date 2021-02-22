@@ -43,9 +43,10 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from "vue";
 import TokenInfo from "../components/token-info.vue";
-export default {
-  components: {
+export default defineComponent ({
+    components: {
     TokenInfo,
   },
   methods: {
@@ -82,7 +83,7 @@ export default {
       searchTerm: "" as string,
     };
   },
-};
+});
 </script>
 
 <style>
