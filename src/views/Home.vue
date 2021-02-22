@@ -42,7 +42,6 @@
 
 <script>
 import TokenInfo from "../components/token-info";
-
 export default {
   components: {
     TokenInfo,
@@ -63,6 +62,7 @@ export default {
       if (!this.searchTerm) {
         return;
       }
+      debugger
       this.$router.push(`search-results/${this.searchTerm}`);
     },
   },
