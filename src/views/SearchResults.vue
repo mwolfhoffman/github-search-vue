@@ -28,13 +28,14 @@
       "
     >
       <div @click.prevent="decrementPage()" class="search-page-btn">
-        &#8592; Previous
+        <a class="nav-btn">&#8249;</a>
       </div>
       <div class="total-count">
-        Showing <b>{{totalItems >= 10 ? '10' : totalItems}}</b> Results of <b>{{ totalItems }}</b>
+        Showing <b>{{ totalItems >= 10 ? "10" : totalItems }}</b> Results of
+        <b>{{ totalItems }}</b>
       </div>
       <div @click.prevent="incrementPage()" class="search-page-btn">
-        Next &#8594;
+        <a class="nav-btn">&#8250;</a>
       </div>
     </div>
 
@@ -120,4 +121,17 @@ export default {
 </script>
 
 <style>
+.nav-btn:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.nav-btn {
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #4c82af;
+  color: white;
+  border-radius: 50%;
+}
 </style>
