@@ -106,8 +106,7 @@ export default {
       this.searchUsers({ searchTerm: this.currentSearchTerm });
     },
     incrementPage() {
-      if (this.page === this.totalItems / 10) {
-        //   Hard-coded 10 because for now I am only allowing 10 items per page.
+      if (this.page >= this.totalItems / this.resultsPerPage) {
         return;
       }
       this.$store.commit("setPage", this.page + 1);
@@ -130,6 +129,7 @@ export default {
   },
   watch: {
     $route() {
+      this.$store.commit("setPage", 1);
       this.search();
     },
   },
