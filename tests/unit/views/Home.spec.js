@@ -52,4 +52,36 @@ describe('Home.vue', () => {
         expect(mockRouter.push).toHaveBeenCalledTimes(0);
         expect(mockRoute.path).toBe("/");
     });
+
+    it("if access token is no good, it reverts back to empty string.", () => {
+        const tokenErrorMessage = "I reckon your access token ain't no good 'round here.";
+        const mockStore = {
+            dispatch: jest.fn(),
+        }
+
+        mockStore.dispatch.mockImplementation(() => {
+            throw new Error(tokenErrorMessage);
+        });
+
+        const wrapper = shallowMount(Home, {
+            global: {
+                mocks: {
+                    $store: mockStore
+                }
+            }
+        });
+
+        wrapper.vm.accessToken = "foobar";
+        wrapper.vm.setAccessToken();
+
+        expect(mockStore.dispatch).toHaveBeenCalledTimes(1);
+        expect(mockStore.dispatch).toBeCalledWith("addAccessToken", "foobar");
+        expect(wrapper.vm.tokenErrorMessage).toBe(tokenErrorMessage);
+        expect(wrapper.vm.tokenSuccessful).toBe(false);
+        expect(wrapper.vm.accessToken).toBe("");
+
+    });
+
+
+
 })
