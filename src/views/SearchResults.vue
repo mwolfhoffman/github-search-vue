@@ -28,7 +28,7 @@
       "
     >
       <div @click.prevent="decrementPage()" class="search-page-btn">
-        <a class="nav-btn">&#8249;</a>
+        <a :class="['nav-btn', { 'disabled-btn': this.page === 1 }]">&#8249;</a>
       </div>
       <div class="total-count">
         Showing
@@ -44,7 +44,10 @@
         Results of
         <b>{{ totalItems }}</b>
       </div>
-      <div @click.prevent="incrementPage()" class="search-page-btn">
+      <div
+        @click.prevent="incrementPage()"
+        :class="['search-page-btn', { 'disabled-btn': this.isLastPage }]"
+      >
         <a class="nav-btn">&#8250;</a>
       </div>
     </div>
@@ -89,6 +92,9 @@ export default defineComponent({
       "searchResults",
       "resultsPerPage",
     ]),
+    isLastPage(): boolean {
+      return this.page >= this.totalItems / this.resultsPerPage;
+    },
   },
   data() {
     return {
@@ -107,7 +113,7 @@ export default defineComponent({
       this.searchUsers({ searchTerm: this.currentSearchTerm });
     },
     incrementPage(): void {
-      if (this.page >= this.totalItems / this.resultsPerPage) {
+      if (this.isLastPage) {
         return;
       }
       this.$store.commit("setPage", this.page + 1);
@@ -120,7 +126,7 @@ export default defineComponent({
       this.$store.commit("setPage", this.page - 1);
       this.search();
     },
-    onResultsPerPageChange(event : any): void {
+    onResultsPerPageChange(event: any): void {
       this.$store.commit("setResultsPerPage", event.target.value);
       this.search();
     },

@@ -13,11 +13,20 @@
       </div>
       <form @submit.prevent="setAccessToken()">
         <input
+          class="token-input"
           type="password"
           v-model="accessToken"
           placeholder="Enter Token Here (Optional)"
         />
-        <button type="submit">Save</button>
+        <div>
+          <button
+            type="submit"
+            class="btn-small"
+            :class="{ 'disabled-btn': !accessToken }"
+          >
+            Save Token
+          </button>
+        </div>
       </form>
       <div class="error-message-box" v-if="tokenErrorMessage">
         {{ tokenErrorMessage }}
@@ -37,6 +46,11 @@
           v-model="searchTerm"
           placeholder="Search User Here!"
         />
+        <div>
+          <button type="submit" :class="{ 'disabled-btn': !searchTerm }">
+            Search
+          </button>
+        </div>
       </form>
     </div>
   </div>
@@ -45,12 +59,15 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import TokenInfo from "../components/token-info.vue";
-export default defineComponent ({
-    components: {
+export default defineComponent({
+  components: {
     TokenInfo,
   },
   methods: {
-    async setAccessToken():Promise<void> {
+    async setAccessToken(): Promise<void> {
+      if (!this.accessToken) {
+        return;
+      }
       try {
         this.tokenErrorMessage = "";
         await this.$store.dispatch("addAccessToken", this.accessToken);
@@ -61,7 +78,7 @@ export default defineComponent ({
         this.accessToken = "";
       }
     },
-    async initiateSearch():Promise<void> {
+    async initiateSearch(): Promise<void> {
       if (!this.searchTerm) {
         return;
       }
@@ -90,4 +107,16 @@ export default defineComponent ({
 .home-search-input-container {
   margin-top: 25px;
 }
+
+.token-input {
+  width: 33%;
+  background-color: lightblue;
+  color: grey;
+  padding: 7px 10px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
 </style>

@@ -37,5 +37,6 @@ export default {};
 <style>
 .token-info-container {
   border-style: inset;
+  background-color: aliceblue;
 }
 </style>
