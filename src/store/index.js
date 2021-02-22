@@ -16,9 +16,13 @@ export default new Vuex.Store({
     searchResults: [],
     totalItems: 0,
     page: 1,
-    accessToken: ""
+    accessToken: "",
+    resultsPerPage: 10
   },
   mutations: {
+    setResultsPerPage(state, results) {
+      state.resultsPerPage = results;
+    },
     setSearchResults(state, searchResults) {
       state.searchResults = searchResults;
     },
@@ -53,7 +57,6 @@ export default new Vuex.Store({
       let httpOptions = {};
       commit('setLoadingSearchResults', true);
       try {
-        const perPage = 10; // Hard-coded for now.
         if (state.accessToken) {
           httpOptions = {
             headers: {
@@ -61,7 +64,7 @@ export default new Vuex.Store({
             }
           }
         }
-        const response = await fetch(`${constants.githubBaseUrl}/users?q=${payload.searchTerm}&page=${state.page}&per_page=${perPage}`, httpOptions)
+        const response = await fetch(`${constants.githubBaseUrl}/users?q=${payload.searchTerm}&page=${state.page}&per_page=${state.resultsPerPage}`, httpOptions)
         const json = await response.json();
 
         await asyncForEach(json.items, async (item) => {

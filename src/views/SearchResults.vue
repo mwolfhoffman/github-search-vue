@@ -31,7 +31,17 @@
         <a class="nav-btn">&#8249;</a>
       </div>
       <div class="total-count">
-        Showing <b>{{ totalItems >= 10 ? "10" : totalItems }}</b> Results of
+        Showing
+        <select
+          @change="onResultsPerPageChange($event)"
+          v-model="resultsPerPage"
+        >
+          <option value="10">10</option>
+          <option value="25">25</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+        Results of
         <b>{{ totalItems }}</b>
       </div>
       <div @click.prevent="incrementPage()" class="search-page-btn">
@@ -76,6 +86,7 @@ export default {
       "totalItems",
       "page",
       "searchResults",
+      "resultsPerPage",
     ]),
   },
   data() {
@@ -106,6 +117,10 @@ export default {
         return;
       }
       this.$store.commit("setPage", this.page - 1);
+      this.search();
+    },
+    onResultsPerPageChange(event) {
+      this.$store.commit("setResultsPerPage", event.target.value);
       this.search();
     },
   },

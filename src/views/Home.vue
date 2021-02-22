@@ -55,7 +55,6 @@ export default {
         this.tokenSuccessful = true;
         this.accessToken = "";
       } catch (err) {
-        console.log(err);
         this.tokenErrorMessage = err.message;
         this.accessToken = "";
       }
