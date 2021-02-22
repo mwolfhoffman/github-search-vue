@@ -15,7 +15,8 @@ export default new Vuex.Store({
     loadingSearchResults: false,
     searchResults: [],
     totalItems: 0,
-    page: 1
+    page: 1,
+    accessToken: ""
   },
   mutations: {
     setSearchResults(state, searchResults) {
@@ -30,23 +31,47 @@ export default new Vuex.Store({
     setPage(state, page) {
       state.page = page;
     },
+    setAccessToken(state, token) {
+      state.accessToken = token;
+    }
   },
   actions: {
+
+    async addAccessToken({ commit }, payload) {
+      //   Before we save the access token, let's test that it's a valid one.
+      let response = await fetch("https://api.github.com/notifications", { headers: { "Authorization": `token ${payload}` } });
+      if (response.status === 401) {
+        //  Token is not valid.
+        throw new Error("Sorry, this is not a valid personal access token. Please try again.")
+      } else {
+        let data = await response.json()
+        commit('setAccessToken', payload);
+      }
+    },
+
     async searchUsers({ commit, state }, payload) {
+      let httpOptions = {};
       commit('setLoadingSearchResults', true);
       try {
         const perPage = 10; // Hard-coded for now.
-        const response = await fetch(`${constants.githubBaseUrl}/users?q=${payload.searchTerm}&page=${state.page}&per_page=${perPage}`)
+        if (state.accessToken) {
+          httpOptions = {
+            headers: {
+              "Authorization": `token ${state.accessToken}`
+            }
+          }
+        }
+        const response = await fetch(`${constants.githubBaseUrl}/users?q=${payload.searchTerm}&page=${state.page}&per_page=${perPage}`, httpOptions)
         const json = await response.json();
 
         await asyncForEach(json.items, async (item) => {
-          let followersRes = await fetch(item.followers_url);
+          let followersRes = await fetch(item.followers_url, httpOptions);
           item.followers = await followersRes.json();
 
           if (item.followers && !item.followers.message) {
             //  Github is returning a "message" property if the API rate limit is exceeded. 
             // If item.followers_url returns a message property, there is no use in requesting the stars query since it won't succeed.
-            let starsRes = await fetch(`${item.url}/starred`);
+            let starsRes = await fetch(`${item.url}/starred`, httpOptions);
             item.stars = await starsRes.json();
           }
         })

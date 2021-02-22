@@ -86,7 +86,6 @@ export default {
   methods: {
     ...mapActions(["searchUsers"]),
     createNewSearch() {
-      debugger;
       this.$router.push(this.searchInputValue);
     },
     search() {

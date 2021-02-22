@@ -32,7 +32,7 @@ export default {
         if (this.item.stars && this.item.stars.length === 30) {
           displayString += ` & 30 + Stars`;
         } else {
-          displayString += ` & ${this.stars.length} Stars`;
+          displayString += ` & ${this.item.stars.length} Stars`;
         }
       }
     },
