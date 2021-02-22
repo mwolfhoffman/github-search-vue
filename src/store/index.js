@@ -1,8 +1,5 @@
-import Vue from 'vue'
 import Vuex from 'vuex'
 import * as constants from '../config/constants';
-
-Vue.use(Vuex)
 
 const asyncForEach = async (array, callback) => {
   for (let index = 0; index < array.length; index++) {
@@ -10,7 +7,7 @@ const asyncForEach = async (array, callback) => {
   }
 }
 
-export default new Vuex.Store({
+export default Vuex.createStore({
   state: {
     loadingSearchResults: false,
     searchResults: [],
@@ -89,4 +86,4 @@ export default new Vuex.Store({
     }
   },
 
-})
+});
