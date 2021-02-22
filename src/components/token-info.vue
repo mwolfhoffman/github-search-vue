@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="token-info-container">
     <p>
       <b>Personal Access Tokens</b> will allow you to request more information
       from the Github Search API by increasing Rate Limits.
@@ -35,4 +35,7 @@ export default {};
 </script>
 
 <style>
+.token-info-container {
+  border-style: inset;
+}
 </style>
