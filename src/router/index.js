@@ -8,8 +8,8 @@ const routes = [
     component: Home
   },
   {
-    path: '/search-result/searchTerm',
-    name: 'About',
+    path: '/search-result/:searchTerm',
+    name: 'Search-Results',
     component: () => import('../views/SearchResults.vue')
   }
 ]

@@ -19,13 +19,15 @@
         />
         <button type="submit">Save</button>
       </form>
-      <div class="error-message-box" v-if="tokenErrorMessage">{{
-        tokenErrorMessage
-      }}</div>
+      <div class="error-message-box" v-if="tokenErrorMessage">
+        {{ tokenErrorMessage }}
+      </div>
     </div>
 
     <div class="token-success-box" v-else>
-      <p>Nice Work! You Access Token Was Successfully Added. Start Searching!</p>
+      <p>
+        Nice Work! You Access Token Was Successfully Added. Start Searching!
+      </p>
     </div>
 
     <div class="home-search-input-container">
@@ -62,8 +64,12 @@ export default {
       if (!this.searchTerm) {
         return;
       }
-      debugger
-      this.$router.push(`search-results/${this.searchTerm}`);
+      this.$router.push({
+        name: "Search-Results",
+        params: {
+          searchTerm: this.searchTerm,
+        },
+      });
     },
   },
   data() {

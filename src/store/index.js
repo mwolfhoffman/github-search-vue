@@ -1,13 +1,8 @@
-import Vuex from 'vuex'
 import * as constants from '../config/constants';
+import { createStore } from 'vuex'
+import asyncForEach from '../assets/js/async-for-each';
 
-const asyncForEach = async (array, callback) => {
-  for (let index = 0; index < array.length; index++) {
-    await callback(array[index], index, array);
-  }
-}
-
-export default Vuex.createStore({
+export default createStore({
   state: {
     loadingSearchResults: false,
     searchResults: [],
@@ -84,6 +79,5 @@ export default Vuex.createStore({
         commit('setLoadingSearchResults', false);
       }
     }
-  },
-
-});
+  }
+})
