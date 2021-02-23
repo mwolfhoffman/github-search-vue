@@ -28,7 +28,9 @@
       "
     >
       <div @click.prevent="decrementPage()" class="search-page-btn">
-        <a :class="['nav-btn', { 'disabled-btn': this.page === 1 }]">&#8249;</a>
+        <a :class="[{ 'nav-btn': page !== 1, 'disabled-nav-btn': page === 1 }]"
+          >&#8249;</a
+        >
       </div>
       <div class="total-count">
         Showing
@@ -44,11 +46,10 @@
         Results of
         <b>{{ totalItems }}</b>
       </div>
-      <div
-        @click.prevent="incrementPage()"
-        :class="['search-page-btn', { 'disabled-btn': this.isLastPage }]"
-      >
-        <a class="nav-btn">&#8250;</a>
+      <div @click.prevent="incrementPage()" class="search-page-btn">
+        <a :class="[{ 'nav-btn': !isLastPage, 'disabled-nav-btn': isLastPage }]"
+          >&#8250;</a
+        >
       </div>
     </div>
 
@@ -93,7 +94,9 @@ export default defineComponent({
       "resultsPerPage",
     ]),
     isLastPage(): boolean {
-      return this.page >= this.totalItems / this.resultsPerPage;
+      const isLast = this.page >= this.totalItems / this.resultsPerPage;
+      console.log(isLast);
+      return isLast;
     },
   },
   data() {
@@ -157,5 +160,15 @@ export default defineComponent({
   background-color: #4c82af;
   color: white;
   border-radius: 50%;
+}
+
+.disabled-nav-btn {
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 16px;
+  color: white;
+  border-radius: 50%;
+  background-color: #73a6b8;
+  cursor: context-menu;
 }
 </style>
