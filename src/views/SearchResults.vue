@@ -8,7 +8,7 @@
     </div>
 
     <div>
-      <form @submit.prevent="createNewSearch()">
+      <form id="search-input-form" @submit.prevent="createNewSearch()">
         <input
           class="search-input"
           type="text"
@@ -27,7 +27,11 @@
         justify-content: space-between;
       "
     >
-      <div @click.prevent="decrementPage()" class="search-page-btn">
+      <div
+        @click.prevent="decrementPage()"
+        class="search-page-btn"
+        id="decrement-page-btn"
+      >
         <a :class="[{ 'nav-btn': page !== 1, 'disabled-nav-btn': page === 1 }]"
           >&#8249;</a
         >
@@ -35,6 +39,7 @@
       <div class="total-count">
         Showing
         <select
+          id="results-per-page-select"
           @change="onResultsPerPageChange($event)"
           v-model="resultsPerPage"
         >
@@ -46,7 +51,11 @@
         Results of
         <b>{{ totalItems }}</b>
       </div>
-      <div @click.prevent="incrementPage()" class="search-page-btn">
+      <div
+        @click.prevent="incrementPage()"
+        class="search-page-btn"
+        id="increment-page-btn"
+      >
         <a :class="[{ 'nav-btn': !isLastPage, 'disabled-nav-btn': isLastPage }]"
           >&#8250;</a
         >
@@ -75,7 +84,7 @@
 
 
 <script lang="ts">
-import { mapState, mapActions } from "vuex";
+import { mapState } from "vuex";
 import Loader from "../components/loader.vue";
 import Card from "../components/card.vue";
 import { defineComponent } from "vue";
@@ -94,9 +103,7 @@ export default defineComponent({
       "resultsPerPage",
     ]),
     isLastPage(): boolean {
-      const isLast = this.page >= this.totalItems / this.resultsPerPage;
-      console.log(isLast);
-      return isLast;
+      return this.page >= this.totalItems / this.resultsPerPage;
     },
   },
   data() {
@@ -106,14 +113,15 @@ export default defineComponent({
     };
   },
   methods: {
-    ...mapActions(["searchUsers"]),
     createNewSearch(): void {
       this.$router.push(this.searchInputValue);
       this.searchInputValue = "";
     },
     search(): void {
       this.currentSearchTerm = this.$route.params.searchTerm;
-      this.searchUsers({ searchTerm: this.currentSearchTerm });
+      this.$store.dispatch("searchUsers", {
+        searchTerm: this.currentSearchTerm,
+      });
     },
     incrementPage(): void {
       if (this.isLastPage) {
@@ -130,6 +138,9 @@ export default defineComponent({
       this.search();
     },
     onResultsPerPageChange(event: any): void {
+      if (this.totalItems < event.target.value) {
+        return;
+      }
       this.$store.commit("setResultsPerPage", event.target.value);
       this.search();
     },
@@ -160,6 +171,7 @@ export default defineComponent({
   background-color: #4c82af;
   color: white;
   border-radius: 50%;
+  margin: auto 25px;
 }
 
 .disabled-nav-btn {
@@ -170,5 +182,6 @@ export default defineComponent({
   border-radius: 50%;
   background-color: #73a6b8;
   cursor: context-menu;
+  margin: auto 25px;
 }
 </style>
