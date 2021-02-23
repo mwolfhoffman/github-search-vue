@@ -184,4 +184,13 @@ export default defineComponent({
   cursor: context-menu;
   margin: auto 25px;
 }
+
+@media only screen and (max-width: 600px) {
+  .disabled-nav-btn {
+    margin: auto 5px;
+  }
+  .nav-btn {
+    margin: auto 5px;
+  }
+}
 </style>
